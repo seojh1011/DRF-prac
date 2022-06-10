@@ -10,7 +10,7 @@ from rest_framework import permissions
 class VerifyPermissionLevel(permissions.BasePermission):
     def has_permission(self, request, view):
         user = request.user
-        result = bool(user and user.is_authenticated and user.permission_level > 0)
+        result = bool(user and user.is_authenticated and user.permission_level >= 0)
         return result
 
 
