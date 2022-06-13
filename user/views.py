@@ -1,4 +1,6 @@
 from urllib import response
+
+from django.contrib.auth import authenticate, login
 from django.shortcuts import render
 
 from rest_framework.views import APIView
@@ -15,8 +17,19 @@ class VerifyPermissionLevel(permissions.BasePermission):
 
 
 class UserApiView(APIView):
-    permission_classes = [VerifyPermissionLevel]
+    # permission_classes = [VerifyPermissionLevel]
     # permission_classes = [permissions.IsAuthenticated]
     def get(self, request):
         return Response({"message": "get success!"})
+
+    def post(self, request):
+        username = request.data.get('username','')
+        password = request.data.get('password','')
+        user = authenticate(request, username=username, password=password)
+
+        if not user:
+            return Response({'error':'아이디 또는 비밀번호 오류입니다'})
+
+        login(request, user)
+        return Response({'message':'로그인 성공'})
 
