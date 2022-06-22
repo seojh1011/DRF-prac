@@ -1,21 +1,20 @@
 from django.contrib import admin
 from django.contrib.auth.models import Group
 
-from user.models import User as UserModel
+from user.models import User
 from user.models import UserProfile
-from user.models import Server as ServerModel
-from user.models import Nationality as NationalityModel
+from user.models import Hobby
 
 
 admin.site.unregister(Group)
 
-class idcheck(admin.ModelAdmin):
-    list_display = ('id', 'name')
+class UserAdmin(admin.ModelAdmin):
+    list_display = ('id', 'username',)
+    list_display_links = ('username',)
 
-admin.site.register(UserModel)
+admin.site.register(User, UserAdmin)
 admin.site.register(UserProfile)
-admin.site.register(ServerModel, idcheck)
-admin.site.register(NationalityModel, idcheck)
+admin.site.register(Hobby)
 
 
 
